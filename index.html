@@ -191,19 +191,6 @@
             getLanguage();
             getCookiesEnabled();
             getJavascriptEnabled();
-            // Create a new XMLHttpRequest object
-			var xhttp = new XMLHttpRequest();
-			// Define the callback function
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					// Display the popup window with the received data
-					var popup = window.open("", "", "width=600,height=400");
-					popup.document.write(this.responseText);
-				}
-			};
-			// Send a GET request to the server
-			xhttp.open("GET", "store_info.php", true);
-			xhttp.send();
         }
     
         // Function to close the popup
