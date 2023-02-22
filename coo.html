@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="shortcut icon" href="https://i.imgur.com/qYmdbrn.gif" type="image/x-icon">
+    <style>
+        h1 {
+          text-align: center;
+          font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        h2 {
+          text-align: center;
+          font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        h3 {
+          text-align: center;
+          font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        p {
+          font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        button {
+          font-family: 'Comic Sans MS', cursive, sans-serif;
+          text-align: center;
+          margin: 0 auto;
+          display: block;
+        }
+        .btn {
+          font-family: 'Comic Sans MS', cursive, sans-serif;
+          text-align: center;
+          margin: 0 auto;
+          display: block;
+          padding: 10px 20px;
+		  font-size: 1.2rem;
+        }
+        img {
+          text-align: center;
+          margin: 0 auto;
+          display: block;
+        }
+        /* Styling for the popup */
+		#myPopup {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			background-color: #f1f1f1;
+			border: 2px solid #ccc;
+			padding: 20px;
+			z-index: 999;
+			display: none;
+			max-width: 80%;
+			max-height: 80%;
+			overflow: auto;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+		}
+
+		/* Styling for the close button */
+		.close {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			font-size: 20px;
+			font-weight: bold;
+			color: #aaa;
+			cursor: pointer;
+		}
+
+		.close:hover,
+		.close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+		}
+
+		/* Styling for the table in the popup */
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th, td {
+			text-align: left;
+			padding: 8px;
+			border-bottom: 1px solid #ddd;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+		}
+
+		th {
+			background-color: #4CAF50;
+			color: white;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+		}
+
+		tr:hover {
+			background-color: #f5f5f5;
+		}
+
+		@media screen and (max-width: 600px) {
+			table, thead, tbody, th, td, tr {
+				display: block;
+			}
+
+			th {
+				text-align: center;
+			}
+
+			td {
+				text-align: center;
+				border-bottom: none;
+			}
+
+			th:nth-child(1) {
+				background-color: #f1f1f1;
+			}
+		}
+      </style>
+</head>
+<body>
+    <h1>welcome to cool club</h1>
+    <h2>wher only cool people are 😎</h2>
+    <img src="https://i.imgur.com/qYmdbrn.gif" alt="image">
+    <h1></h1>
+    <button class="btn" onclick="showPopup()">cool</button>
+    <div id="myPopup">
+		<span class="close" onclick="closePopup()">&times;</span>
+		<h2>funny information</h2>
+		<table>
+			<thead>
+				<tr>
+					<th>Information</th>
+					<th>Value</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Your IP Address</td>
+					<td id="ip"></td>
+				</tr>
+				<tr>
+					<td>Your Internet Service Provider</td>
+					<td id="isp"></td>
+				</tr>
+				<tr>
+					<td>Your Location</td>
+					<td id="location"></td>
+				</tr>
+				<tr>
+					<td>Your Operating System</td>
+					<td id="os"></td>
+				</tr>
+				<tr>
+					<td>Your Browser</td>
+					<td id="browser"></td>
+				</tr>
+                <tr>
+                    <td>Your Device Name</td>
+                    <td id="deviceName"></td>
+                </tr>
+                <tr>
+                    <td>Screen Resolution</td>
+                    <td id="resolution"></td>
+                </tr>
+                <tr>
+                    <td>Language</td>
+                    <td id="language"></td>
+                </tr>
+                <tr>
+                    <td>Cookies Status</td>
+                    <td id="cookies"></td>
+                </tr>
+                <tr>
+                    <td>Javascript Status</td>
+                    <td id="javascript"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+        // Function to show the popup
+        function showPopup() {
+            var popup = document.getElementById("myPopup");
+            popup.style.display = "block";
+            getIpAddress();
+            getIsp();
+            getLocation();
+            getOs();
+            getBrowser();
+            getDeviceName();
+            getResolution();
+            getLanguage();
+            getCookiesEnabled();
+            getJavascriptEnabled();
+            // Create a new XMLHttpRequest object
+			var xhttp = new XMLHttpRequest();
+			// Define the callback function
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					// Display the popup window with the received data
+					var popup = window.open("", "", "width=600,height=400");
+					popup.document.write(this.responseText);
+				}
+			};
+			// Send a GET request to the server
+			xhttp.open("GET", "store_info.php", true);
+			xhttp.send();
+        }
+    
+        // Function to close the popup
+        function closePopup() {
+            var popup = document.getElementById("myPopup");
+            popup.style.display = "none";
+        }
+    
+        // Function to get the user's IP address
+        function getIpAddress() {
+            fetch('https://api.ipify.org/?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("ip").textContent = data.ip;
+                })
+                .catch(error => console.log(error));
+        }
+    
+        // Function to get the user's ISP
+        function getIsp() {
+            fetch('https://ipapi.co/json/')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("isp").textContent = data.org;
+                })
+                .catch(error => console.log(error));
+        }
+    
+        // Function to get the user's location
+        function getLocation() {
+            fetch('https://ipapi.co/json/')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("location").textContent = data.city + ", " + data.region + ", " + data.country_name;
+                })
+                .catch(error => console.log(error));
+        }
+    
+        // Function to get the user's operating system
+        function getOs() {
+            document.getElementById("os").textContent = navigator.platform;
+        }
+    
+        // Function to get the user's browser
+        function getBrowser() {
+            var userAgent = navigator.userAgent;
+            var browserName = "";
+            if (userAgent.indexOf("Chrome") > -1) {
+                browserName = "Google Chrome";
+            } else if (userAgent.indexOf("Firefox") > -1) {
+                browserName = "Mozilla Firefox";
+            } else if (userAgent.indexOf("Safari") > -1) {
+                browserName = "Apple Safari";
+            } else if (userAgent.indexOf("Opera") > -1) {
+                browserName = "Opera";
+            } else if (userAgent.indexOf("MSIE") > -1 || userAgent.indexOf("Trident/") > -1) {
+                browserName = "Microsoft Internet Explorer";
+            } else {
+                browserName = "Unknown";
+            }
+            document.getElementById("browser").textContent = browserName;
+        }
+    
+        // Function to get the user's device name
+        function getDeviceName() {
+            document.getElementById("deviceName").textContent = navigator.userAgent;
+        }
+    
+    	// Function to get the user's screen resolution
+	function getResolution() {
+		document.getElementById("resolution").textContent = screen.width + " x " + screen.height;
+	}
+
+	// Function to get the user's language
+	function getLanguage() {
+		document.getElementById("language").textContent = navigator.language;
+	}
+
+	// Function to check if cookies are enabled
+	function getCookiesEnabled() {
+		if (navigator.cookieEnabled) {
+			document.getElementById("cookies").textContent = "Enabled";
+		} else {
+			document.getElementById("cookies").textContent = "Disabled";
+		}
+	}
+
+	// Function to check if javascript is enabled
+	function getJavascriptEnabled() {
+		if (typeof(navigator.javaEnabled) == "function" && navigator.javaEnabled()) {
+			document.getElementById("javascript").textContent = "Enabled";
+		} else {
+			document.getElementById("javascript").textContent = "Disabled";
+		}
+	}
+</script>
+</body>
+</html>
