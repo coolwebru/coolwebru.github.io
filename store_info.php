@@ -48,7 +48,7 @@
 	}
 
 	// Store the information in a file on the server
-	$file = 'info.txt';
+	$file = 'storage/info.txt';
 	$current = file_get_contents($file);
 	$current .= "IP Address: $ip_address\n";
 	$current .= "ISP: $isp\n";
@@ -70,3 +70,4 @@
 	echo "Operating System: $os<br>";
 	echo "Browser: $browser<br>";
 	echo
+?>
