@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Site</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?>
+        <li><a href="dashboard.php">Dashboard</a></li>
+        <li><a href="logout.php">Logout</a></li>
+      <?php } else { ?>
+        <li><a href="login.php">Login</a></li>
+        <li><a href="register.php">Register</a></li>
+      <?php } ?>
+    </ul>
+  </nav>
+  <main>
+    <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) { ?>
+      <h1>Welcome, <?php echo htmlspecialchars($_SESSION["username"]); ?>!</h1>
+      <p>This is the dashboard.</p>
+    <?php } else { ?>
+      <div class="forms">
+        <div class="form-container">
+          <h2>Login</h2>
+          <?php include "login.php"; ?>
+        </div>
+        <div class="form-container">
+          <h2>Register</h2>
+          <?php include "register.php"; ?>
+        </div>
+      </div>
+    <?php } ?>
+  </main>
+</body>
+</html>
